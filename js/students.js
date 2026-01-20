@@ -1,12 +1,12 @@
 // ========================================
 // STUDENT DATASET - LOCKED & FINAL
-// Total: 62 Students (35 Boys, 27 Girls)
+// Total: 62 Students (33 Boys, 29 Girls)
 // Register Numbers: 927624BEC064 - 927624BEC126
 // Excluded: 927624BEC077 (Left college)
 // ========================================
 
 const STUDENTS = [
-    // === BOYS (35) ===
+    // === BOYS (33) ===
     { register: "927624BEC064", name: "HARIPRASANTH K", gender: "male" },
     { register: "927624BEC065", name: "HARISH N", gender: "male" },
     { register: "927624BEC066", name: "HARISH PRANAV S", gender: "male" },
@@ -17,7 +17,6 @@ const STUDENTS = [
     { register: "927624BEC079", name: "JEYA KRISHNAN T", gender: "male" },
     { register: "927624BEC080", name: "JEYAHARISH T", gender: "male" },
     { register: "927624BEC081", name: "KAISER RAHMAN M", gender: "male" },
-    { register: "927624BEC082", name: "KALAI T", gender: "male" },
     { register: "927624BEC083", name: "KALAIPRIYAN K", gender: "male" },
     { register: "927624BEC088", name: "KANSUL AASIF A", gender: "male" },
     { register: "927624BEC091", name: "KARNAN S", gender: "male" },
@@ -28,7 +27,6 @@ const STUDENTS = [
     { register: "927624BEC098", name: "KAVIN KUMAR P", gender: "male" },
     { register: "927624BEC099", name: "KAVIN VARSAN M", gender: "male" },
     { register: "927624BEC101", name: "KAVIRAJ A", gender: "male" },
-    { register: "927624BEC102", name: "KAVISHKA B", gender: "male" },
     { register: "927624BEC103", name: "KAVIVENDAN S", gender: "male" },
     { register: "927624BEC108", name: "KEVIN ANDREWS S", gender: "male" },
     { register: "927624BEC109", name: "KIRAN T", gender: "male" },
@@ -43,7 +41,7 @@ const STUDENTS = [
     { register: "927624BEC125", name: "MANOJ S", gender: "male" },
     { register: "927624BEC126", name: "MANOJ KUMAR S", gender: "male" },
 
-    // === GIRLS (27) ===
+    // === GIRLS (29) ===
     { register: "927624BEC068", name: "HARSHINI E", gender: "female" },
     { register: "927624BEC069", name: "HARSHITHA V", gender: "female" },
     { register: "927624BEC070", name: "HARSITHAASREE P", gender: "female" },
@@ -51,6 +49,7 @@ const STUDENTS = [
     { register: "927624BEC073", name: "HEMAVATHY P", gender: "female" },
     { register: "927624BEC075", name: "JANANI B", gender: "female" },
     { register: "927624BEC076", name: "JANANI N", gender: "female" },
+    { register: "927624BEC082", name: "KALAI T", gender: "female" },
     { register: "927624BEC084", name: "KALAISELVI A", gender: "female" },
     { register: "927624BEC085", name: "KALESWARI M", gender: "female" },
     { register: "927624BEC086", name: "KAMALI G", gender: "female" },
@@ -60,6 +59,7 @@ const STUDENTS = [
     { register: "927624BEC096", name: "KARTHIKA S", gender: "female" },
     { register: "927624BEC097", name: "KARTHIKAA S", gender: "female" },
     { register: "927624BEC100", name: "KAVIPRIYA N", gender: "female" },
+    { register: "927624BEC102", name: "KAVISHKA B", gender: "female" },
     { register: "927624BEC104", name: "KAVIYA G", gender: "female" },
     { register: "927624BEC105", name: "KAVIYA T", gender: "female" },
     { register: "927624BEC106", name: "KAVIYA V", gender: "female" },

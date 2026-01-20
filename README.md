@@ -218,7 +218,7 @@ const SECRET_PARTS = ['927', '624'];
 
 ## 📊 Student Dataset
 
-**Total Students:** 62 (35 Boys, 27 Girls)  
+**Total Students:** 62 (33 Boys, 29 Girls)  
 **Register Numbers:** 927624BEC064 → 927624BEC126  
 **Excluded:** 927624BEC077 (Left college)
 
