@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClassHub - Classroom Management</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1 class="header-title">🎓 ClassHub</h1>
+                <p class="header-subtitle">Class Representative Dashboard</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span id="connectionStatus" class="connection-status" title="Working in offline mode"></span>
+                <button class="settings-btn" onclick="openSettings()" aria-label="Settings">⚙️</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Card 1: Submission Tracker (Protected) -->
+        <div class="card" onclick="requestAccess('tracker')">
+            <div class="card-icon">📝</div>
+            <h2 class="card-title">Submission Tracker</h2>
+            <p class="card-description">Track student note submissions</p>
+        </div>
+
+        <!-- Card 2: Class Drive Hub (Open) -->
+        <div class="card" onclick="openDriveHub()">
+            <div class="card-icon">📂</div>
+            <h2 class="card-title">Class Drive Hub</h2>
+            <p class="card-description">Access shared materials</p>
+        </div>
+
+        <!-- Card 3: PlaySphere (Open) -->
+        <div class="card" onclick="openPlaySphere()">
+            <div class="card-icon">🎮</div>
+            <h2 class="card-title">PlaySphere</h2>
+            <p class="card-description">Gaming platform</p>
+        </div>
+
+        <!-- Card 4: Polling & Analysis (Protected) -->
+        <div class="card" onclick="requestAccess('polling')">
+            <div class="card-icon">📊</div>
+            <h2 class="card-title">Polling & Analysis</h2>
+            <p class="card-description">Student task polling</p>
+        </div>
+    </main>
+
+    <!-- Secret Code Modal -->
+    <div id="secretModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">🔐 Access Protected</h2>
+            <p class="modal-subtitle">Enter 6-digit secret code</p>
+            <input type="password" id="secretInput" class="secret-input" maxlength="6" placeholder="• • • • • •">
+            <div class="modal-buttons">
+                <button onclick="verifyAccess()" class="btn-primary">Unlock</button>
+                <button onclick="closeSecretModal()" class="btn-secondary">Cancel</button>
+            </div>
+            <p id="secretError" class="error-message"></p>
+        </div>
+    </div>
+
+    <!-- Submission Tracker View -->
+    <div id="trackerView" class="view-container hidden">
+        <div class="view-header">
+            <button onclick="closeView('tracker')" class="back-btn">← Back</button>
+            <h2>📝 Submission Tracker</h2>
+            <button onclick="showSummary()" class="summary-btn">📊 Summary</button>
+        </div>
+
+        <!-- Search & Filters -->
+        <div class="controls">
+            <input type="text" id="searchInput" placeholder="Search by register or name..." class="search-input">
+            <div class="filter-group">
+                <button onclick="filterGender('all')" class="filter-btn active" data-filter="all">All (62)</button>
+                <button onclick="filterGender('male')" class="filter-btn" data-filter="male">Boys (35)</button>
+                <button onclick="filterGender('female')" class="filter-btn" data-filter="female">Girls (27)</button>
+            </div>
+            <div class="filter-group">
+                <button onclick="filterSubmission('all')" class="filter-btn active" data-submission="all">All</button>
+                <button onclick="filterSubmission('submitted')" class="filter-btn" data-submission="submitted">Submitted</button>
+                <button onclick="filterSubmission('pending')" class="filter-btn" data-submission="pending">Pending</button>
+            </div>
+            <div class="sort-group">
+                <label>Sort by:</label>
+                <select id="sortSelect" onchange="sortStudents()" class="sort-select">
+                    <option value="register">Register Number</option>
+                    <option value="name">Name</option>
+                    <option value="time">Submission Time</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Student List -->
+        <div id="studentList" class="student-list"></div>
+    </div>
+
+    <!-- Drive Hub View -->
+    <div id="driveView" class="view-container hidden">
+        <div class="view-header">
+            <button onclick="closeView('drive')" class="back-btn">← Back</button>
+            <h2>📂 Class Drive Hub</h2>
+        </div>
+        <div class="drive-links">
+            <div class="drive-card" onclick="openLink('staff')">
+                <div class="drive-icon">👨‍🏫</div>
+                <h3>Staff Materials</h3>
+                <p>Lecture notes and resources</p>
+            </div>
+            <div class="drive-card" onclick="openLink('student')">
+                <div class="drive-icon">📚</div>
+                <h3>Student Materials</h3>
+                <p>Assignments and guides</p>
+            </div>
+            <div class="drive-card" onclick="openLink('photos')">
+                <div class="drive-icon">📷</div>
+                <h3>Photos & Events</h3>
+                <p>Class memories</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Polling View -->
+    <div id="pollingView" class="view-container hidden">
+        <div class="view-header">
+            <button onclick="closeView('polling')" class="back-btn">← Back</button>
+            <h2>📊 Polling & Analysis</h2>
+        </div>
+
+        <!-- Poll Creation -->
+        <div class="poll-section">
+            <h3>Create Poll</h3>
+            <input type="text" id="pollQuestion" placeholder="Enter poll question..." class="poll-input">
+            <button onclick="createPoll()" class="btn-primary">Create Poll</button>
+        </div>
+
+        <!-- Active Polls -->
+        <div id="activePollsList" class="polls-list"></div>
+
+        <!-- Analytics -->
+        <div class="analytics-section">
+            <h3>📈 Analytics</h3>
+            <div id="analyticsData" class="analytics-data"></div>
+        </div>
+    </div>
+
+    <!-- Summary Modal -->
+    <div id="summaryModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">📊 Submission Summary</h2>
+            <div id="summaryContent" class="summary-content"></div>
+            <button onclick="closeSummary()" class="btn-primary">Close</button>
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="settings-panel">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h2>⚙️ Settings</h2>
+                <button onclick="closeSettings()" class="close-btn">✕</button>
+            </div>
+            
+            <div class="setting-item">
+                <label>🌓 Theme</label>
+                <div class="theme-toggle">
+                    <button onclick="setTheme('light')" class="theme-btn active" data-theme="light">☀️ Light</button>
+                    <button onclick="setTheme('dark')" class="theme-btn" data-theme="dark">🌙 Dark</button>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <label>📏 Font Size</label>
+                <div class="font-size-control">
+                    <button onclick="adjustFontSize(-1)">A-</button>
+                    <span id="fontSizeDisplay">Medium</span>
+                    <button onclick="adjustFontSize(1)">A+</button>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <label>🔄 Auto-Reset (24 hours)</label>
+                <label class="switch">
+                    <input type="checkbox" id="autoResetToggle" onchange="toggleAutoReset()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-item">
+                <button onclick="confirmReset()" class="btn-danger">🗑️ Reset All Data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Confirmation Modal -->
+    <div id="resetModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">⚠️ Confirm Reset</h2>
+            <p>This will delete all submission and poll data. Continue?</p>
+            <div class="modal-buttons">
+                <button onclick="resetData()" class="btn-danger">Reset</button>
+                <button onclick="closeResetModal()" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase & JavaScript -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/firebase.js"></script>
+    <script src="js/students.js"></script>
+    <script src="js/tracker.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/analytics.js"></script>
+    <script src="js/poll.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+</html>
