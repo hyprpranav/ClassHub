@@ -23,11 +23,14 @@
     --warning: #f59e0b;
     --info: #3b82f6;
     
-    /* Font Sizes */
-    --font-small: 0.875rem;
-    --font-medium: 1rem;
-    --font-large: 1.25rem;
-    --font-xlarge: 1.5rem;
+    /* Font Size Multiplier (controlled by settings) */
+    --font-multiplier: 1;
+    
+    /* Font Sizes - All scale with multiplier */
+    --font-small: calc(0.875rem * var(--font-multiplier));
+    --font-medium: calc(1rem * var(--font-multiplier));
+    --font-large: calc(1.25rem * var(--font-multiplier));
+    --font-xlarge: calc(1.5rem * var(--font-multiplier));
     
     /* Spacing */
     --spacing-xs: 0.5rem;
@@ -68,23 +71,65 @@ body {
     font-size: var(--font-medium);
     transition: background 0.3s ease, color 0.3s ease;
     min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Font Size Classes */
-body.font-small { font-size: 0.875rem; }
-body.font-medium { font-size: 1rem; }
-body.font-large { font-size: 1.125rem; }
+/* Font Size Classes - Update CSS variable */
+body.font-small { --font-multiplier: 0.875; }
+body.font-medium { --font-multiplier: 1; }
+body.font-large { --font-multiplier: 1.125; }
+
+/* === OPTIONAL: LIGHT PILLAR ANIMATION BACKGROUND === */
+/* This section can be deleted along with js/lightpillar.js to remove animation */
+.light-pillar-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+    mix-blend-mode: screen;
+    transition: opacity 0.5s ease;
+}
+
+body.dark-theme .light-pillar-bg {
+    opacity: 0.6;
+}
+
+.light-pillar-bg canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Ensure content is above animation */
+.header,
+.main-container,
+.tracker-view,
+.drive-view,
+.polling-view,
+.settings-panel,
+.modal {
+    position: relative;
+    z-index: 1;
+}
+/* === END OPTIONAL ANIMATION STYLES === */
 
 /* === HEADER === */
 .header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     color: white;
-    padding: var(--spacing-md) var(--spacing-sm);
+    padding: 1rem 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     position: sticky;
     top: 0;
     z-index: 100;
     animation: slideDown 0.5s ease;
+    border-bottom: 3px solid #3498db;
 }
 
 @keyframes slideDown {
@@ -106,6 +151,39 @@ body.font-large { font-size: 1.125rem; }
     justify-content: space-between;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-icon {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-title {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .connection-status {
     width: 12px;
     height: 12px;
@@ -124,20 +202,8 @@ body.font-large { font-size: 1.125rem; }
     50% { opacity: 0.5; }
 }
 
-.header-title {
-    font-size: var(--font-xlarge);
-    font-weight: 700;
-    margin: 0;
-}
-
-.header-subtitle {
-    font-size: var(--font-small);
-    opacity: 0.9;
-    margin-top: 0.25rem;
-}
-
 .settings-btn {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
     border: none;
     color: white;
     font-size: 1.5rem;
@@ -146,11 +212,13 @@ body.font-large { font-size: 1.125rem; }
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .settings-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.25);
     transform: rotate(90deg);
 }
 
@@ -162,6 +230,7 @@ body.font-large { font-size: 1.125rem; }
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--spacing-md);
+    flex: 1;
 }
 
 /* === CARDS === */
@@ -255,8 +324,7 @@ body.font-large { font-size: 1.125rem; }
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.75);
     z-index: 1000;
     align-items: center;
     justify-content: center;
@@ -270,11 +338,9 @@ body.font-large { font-size: 1.125rem; }
 @keyframes fadeIn {
     from { 
         opacity: 0;
-        backdrop-filter: blur(0px);
     }
     to { 
         opacity: 1;
-        backdrop-filter: blur(10px);
     }
 }
 
@@ -987,3 +1053,341 @@ input:checked + .slider:before {
 .mb-2 { margin-bottom: var(--spacing-sm); }
 .mb-3 { margin-bottom: var(--spacing-md); }
 .mb-4 { margin-bottom: var(--spacing-lg); }
+
+/* === HAMSTER LOADER (Universal Loading Animation) === */
+/* From Uiverse.io by Nawsome */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.loading-overlay.hidden {
+    display: none;
+}
+
+.loading-text {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.wheel-and-hamster {
+    --dur: 1s;
+    position: relative;
+    width: 12em;
+    height: 12em;
+    font-size: 14px;
+}
+
+.wheel,
+.hamster,
+.hamster div,
+.spoke {
+    position: absolute;
+}
+
+.wheel,
+.spoke {
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.wheel {
+    background: radial-gradient(100% 100% at center,hsla(0,0%,60%,0) 47.8%,hsl(0,0%,60%) 48%);
+    z-index: 2;
+}
+
+.hamster {
+    animation: hamster var(--dur) ease-in-out infinite;
+    top: 50%;
+    left: calc(50% - 3.5em);
+    width: 7em;
+    height: 3.75em;
+    transform: rotate(4deg) translate(-0.8em,1.85em);
+    transform-origin: 50% 0;
+    z-index: 1;
+}
+
+.hamster__head {
+    animation: hamsterHead var(--dur) ease-in-out infinite;
+    background: hsl(30,90%,55%);
+    border-radius: 70% 30% 0 100% / 40% 25% 25% 60%;
+    box-shadow: 0 -0.25em 0 hsl(30,90%,80%) inset,
+        0.75em -1.55em 0 hsl(30,90%,90%) inset;
+    top: 0;
+    left: -2em;
+    width: 2.75em;
+    height: 2.5em;
+    transform-origin: 100% 50%;
+}
+
+.hamster__ear {
+    animation: hamsterEar var(--dur) ease-in-out infinite;
+    background: hsl(0,90%,85%);
+    border-radius: 50%;
+    box-shadow: -0.25em 0 hsl(30,90%,55%) inset;
+    top: -0.25em;
+    right: -0.25em;
+    width: 0.75em;
+    height: 0.75em;
+    transform-origin: 50% 75%;
+}
+
+.hamster__eye {
+    animation: hamsterEye var(--dur) linear infinite;
+    background-color: hsl(0,0%,0%);
+    border-radius: 50%;
+    top: 0.375em;
+    left: 1.25em;
+    width: 0.5em;
+    height: 0.5em;
+}
+
+.hamster__nose {
+    background: hsl(0,90%,75%);
+    border-radius: 35% 65% 85% 15% / 70% 50% 50% 30%;
+    top: 0.75em;
+    left: 0;
+    width: 0.2em;
+    height: 0.25em;
+}
+
+.hamster__body {
+    animation: hamsterBody var(--dur) ease-in-out infinite;
+    background: hsl(30,90%,90%);
+    border-radius: 50% 30% 50% 30% / 15% 60% 40% 40%;
+    box-shadow: 0.1em 0.75em 0 hsl(30,90%,55%) inset,
+        0.15em -0.5em 0 hsl(30,90%,80%) inset;
+    top: 0.25em;
+    left: 2em;
+    width: 4.5em;
+    height: 3em;
+    transform-origin: 17% 50%;
+    transform-style: preserve-3d;
+}
+
+.hamster__limb--fr,
+.hamster__limb--fl {
+    clip-path: polygon(0 0,100% 0,70% 80%,60% 100%,0% 100%,40% 80%);
+    top: 2em;
+    left: 0.5em;
+    width: 1em;
+    height: 1.5em;
+    transform-origin: 50% 0;
+}
+
+.hamster__limb--fr {
+    animation: hamsterFRLimb var(--dur) linear infinite;
+    background: linear-gradient(hsl(30,90%,80%) 80%,hsl(0,90%,75%) 80%);
+    transform: rotate(15deg) translateZ(-1px);
+}
+
+.hamster__limb--fl {
+    animation: hamsterFLLimb var(--dur) linear infinite;
+    background: linear-gradient(hsl(30,90%,90%) 80%,hsl(0,90%,85%) 80%);
+    transform: rotate(15deg);
+}
+
+.hamster__limb--br,
+.hamster__limb--bl {
+    border-radius: 0.75em 0.75em 0 0;
+    clip-path: polygon(0 0,100% 0,100% 30%,70% 90%,70% 100%,30% 100%,40% 90%,0% 30%);
+    top: 1em;
+    left: 2.8em;
+    width: 1.5em;
+    height: 2.5em;
+    transform-origin: 50% 30%;
+}
+
+.hamster__limb--br {
+    animation: hamsterBRLimb var(--dur) linear infinite;
+    background: linear-gradient(hsl(30,90%,80%) 90%,hsl(0,90%,75%) 90%);
+    transform: rotate(-25deg) translateZ(-1px);
+}
+
+.hamster__limb--bl {
+    animation: hamsterBLLimb var(--dur) linear infinite;
+    background: linear-gradient(hsl(30,90%,90%) 90%,hsl(0,90%,85%) 90%);
+    transform: rotate(-25deg);
+}
+
+.hamster__tail {
+    animation: hamsterTail var(--dur) linear infinite;
+    background: hsl(0,90%,85%);
+    border-radius: 0.25em 50% 50% 0.25em;
+    box-shadow: 0 -0.2em 0 hsl(0,90%,75%) inset;
+    top: 1.5em;
+    right: -0.5em;
+    width: 1em;
+    height: 0.5em;
+    transform: rotate(30deg) translateZ(-1px);
+    transform-origin: 0.25em 0.25em;
+}
+
+.spoke {
+    animation: spoke var(--dur) linear infinite;
+    background: radial-gradient(100% 100% at center,hsl(0,0%,60%) 4.8%,hsla(0,0%,60%,0) 5%),
+        linear-gradient(hsla(0,0%,55%,0) 46.9%,hsl(0,0%,65%) 47% 52.9%,hsla(0,0%,65%,0) 53%) 50% 50% / 99% 99% no-repeat;
+}
+
+/* Hamster Animations */
+@keyframes hamster {
+    from, to {
+        transform: rotate(4deg) translate(-0.8em,1.85em);
+    }
+    50% {
+        transform: rotate(0) translate(-0.8em,1.85em);
+    }
+}
+
+@keyframes hamsterHead {
+    from, 25%, 50%, 75%, to {
+        transform: rotate(0);
+    }
+    12.5%, 37.5%, 62.5%, 87.5% {
+        transform: rotate(8deg);
+    }
+}
+
+@keyframes hamsterEye {
+    from, 90%, to {
+        transform: scaleY(1);
+    }
+    95% {
+        transform: scaleY(0);
+    }
+}
+
+@keyframes hamsterEar {
+    from, 25%, 50%, 75%, to {
+        transform: rotate(0);
+    }
+    12.5%, 37.5%, 62.5%, 87.5% {
+        transform: rotate(12deg);
+    }
+}
+
+@keyframes hamsterBody {
+    from, 25%, 50%, 75%, to {
+        transform: rotate(0);
+    }
+    12.5%, 37.5%, 62.5%, 87.5% {
+        transform: rotate(-2deg);
+    }
+}
+
+@keyframes hamsterFRLimb {
+    from, 25%, 50%, 75%, to {
+        transform: rotate(50deg) translateZ(-1px);
+    }
+    12.5%, 37.5%, 62.5%, 87.5% {
+        transform: rotate(-30deg) translateZ(-1px);
+    }
+}
+
+@keyframes hamsterFLLimb {
+    from, 25%, 50%, 75%, to {
+        transform: rotate(-30deg);
+    }
+    12.5%, 37.5%, 62.5%, 87.5% {
+        transform: rotate(50deg);
+    }
+}
+
+@keyframes hamsterBRLimb {
+    from, 25%, 50%, 75%, to {
+        transform: rotate(-60deg) translateZ(-1px);
+    }
+    12.5%, 37.5%, 62.5%, 87.5% {
+        transform: rotate(20deg) translateZ(-1px);
+    }
+}
+
+@keyframes hamsterBLLimb {
+    from, 25%, 50%, 75%, to {
+        transform: rotate(20deg);
+    }
+    12.5%, 37.5%, 62.5%, 87.5% {
+        transform: rotate(-60deg);
+    }
+}
+
+@keyframes hamsterTail {
+    from, 25%, 50%, 75%, to {
+        transform: rotate(30deg) translateZ(-1px);
+    }
+    12.5%, 37.5%, 62.5%, 87.5% {
+        transform: rotate(10deg) translateZ(-1px);
+    }
+}
+
+@keyframes spoke {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(-1turn);
+    }
+}
+
+/* === FOOTER === */
+.footer {
+    background: var(--bg-card);
+    border-top: 2px solid var(--border-color);
+    padding: 1.5rem 2rem;
+    margin-top: auto;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-theme .footer {
+    border-top-color: #334155;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer .copyright {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.footer .credits {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 0;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 1rem;
+    }
+    
+    .footer .copyright,
+    .footer .credits {
+        font-size: 0.75rem;
+    }
+}

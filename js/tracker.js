@@ -58,6 +58,11 @@ function closeView(viewName) {
 // ========================================
 
 async function loadSubmissions() {
+    // Show loader
+    if (typeof HamsterLoader !== 'undefined') {
+        HamsterLoader.show('Loading submissions...');
+    }
+    
     try {
         // Try to load from localStorage first (works without Firebase)
         const localData = localStorage.getItem('classHubSubmissions');
@@ -78,11 +83,21 @@ async function loadSubmissions() {
         }
         
         renderStudentList();
+        
+        // Hide loader
+        if (typeof HamsterLoader !== 'undefined') {
+            HamsterLoader.hide();
+        }
     } catch (error) {
         console.error('Error loading submissions:', error);
         // Continue anyway with empty submissions
         currentSubmissions = {};
         renderStudentList();
+        
+        // Hide loader
+        if (typeof HamsterLoader !== 'undefined') {
+            HamsterLoader.hide();
+        }
     }
 }
 

@@ -149,6 +149,11 @@ function openProtectedView(mode) {
 function openTrackerViewNow() {
     console.log('📝 Opening Submission Tracker...');
     
+    // Show loader
+    if (typeof HamsterLoader !== 'undefined') {
+        HamsterLoader.show('Opening tracker...', 1000);
+    }
+    
     const trackerView = document.getElementById('trackerView');
     
     if (!trackerView) {
@@ -184,6 +189,11 @@ function openTrackerViewNow() {
 
 function openPollingViewNow() {
     console.log('📊 Opening Polling & Analysis...');
+    
+    // Show loader
+    if (typeof HamsterLoader !== 'undefined') {
+        HamsterLoader.show('Opening polls...', 1000);
+    }
     
     const pollingView = document.getElementById('pollingView');
     

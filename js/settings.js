@@ -49,6 +49,9 @@ function loadCurrentSettings() {
 function setTheme(theme, save = true) {
     currentTheme = theme;
     
+    // Dispatch theme change event for animation module
+    document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
+    
     // Update body class
     if (theme === 'dark') {
         document.body.classList.add('dark-theme');
@@ -88,10 +91,13 @@ function adjustFontSize(change) {
 }
 
 function applyFontSize(size) {
-    // Remove all font size classes
+    // Remove all font size classes first
     document.body.classList.remove('font-small', 'font-medium', 'font-large');
-    // Add new font size class
+    // Add new font size class (updates CSS variable --font-multiplier)
     document.body.classList.add(`font-${size}`);
+    
+    currentFontSize = size;
+    console.log(`📏 Font size applied: ${size}`);
 }
 
 function updateFontSizeDisplay() {

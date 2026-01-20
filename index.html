@@ -7,14 +7,42 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- Universal Hamster Loader (Visible on page load) -->
+    <div id="globalLoader" class="loading-overlay">
+        <div aria-label="Orange and tan hamster running in a metal wheel" role="img" class="wheel-and-hamster">
+            <div class="wheel"></div>
+            <div class="hamster">
+                <div class="hamster__body">
+                    <div class="hamster__head">
+                        <div class="hamster__ear"></div>
+                        <div class="hamster__eye"></div>
+                        <div class="hamster__nose"></div>
+                    </div>
+                    <div class="hamster__limb hamster__limb--fr"></div>
+                    <div class="hamster__limb hamster__limb--fl"></div>
+                    <div class="hamster__limb hamster__limb--br"></div>
+                    <div class="hamster__limb hamster__limb--bl"></div>
+                    <div class="hamster__tail"></div>
+                </div>
+            </div>
+            <div class="spoke"></div>
+        </div>
+        <div class="loading-text">Loading ClassHub...</div>
+    </div>
+    
+    <!-- OPTIONAL: Light Pillar Animation Background (can be removed) -->
+    <div id="lightPillarContainer" class="light-pillar-bg"></div>
+    
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <div>
-                <h1 class="header-title">🎓 ClassHub</h1>
-                <p class="header-subtitle">Class Representative Dashboard</p>
+            <div class="header-left">
+                <div class="logo-container">
+                    <span class="logo-icon">🎓</span>
+                    <h1 class="header-title">ClassHub</h1>
+                </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="header-right">
                 <span id="connectionStatus" class="connection-status" title="Working in offline mode"></span>
                 <button class="settings-btn" onclick="openSettings()" aria-label="Settings">⚙️</button>
             </div>
@@ -210,9 +238,24 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="copyright">© 2026 ClassHub. All rights reserved.</p>
+            <p class="credits">Crafted by Harish Pranav S</p>
+        </div>
+    </footer>
+
     <!-- Firebase & JavaScript -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- OPTIONAL: Three.js for Light Pillar Animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Hamster Loader (Universal Loading Animation) -->
+    <script src="js/hamster-loader.js"></script>
+    
     <script src="js/auth.js"></script>
     <script src="js/firebase.js"></script>
     <script src="js/students.js"></script>
@@ -222,5 +265,8 @@
     <script src="js/poll.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/animations.js"></script>
+    
+    <!-- OPTIONAL: Light Pillar Animation (Delete this line + js/lightpillar.js to remove animation) -->
+    <script src="js/lightpillar.js"></script>
 </body>
 </html>
