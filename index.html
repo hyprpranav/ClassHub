@@ -44,6 +44,13 @@
             </div>
             <div class="header-right">
                 <span id="connectionStatus" class="connection-status" title="Working in offline mode"></span>
+                <button class="download-btn" onclick="downloadSubmissions()" aria-label="Download" title="Download Submissions">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </button>
                 <button class="settings-btn" onclick="openSettings()" aria-label="Settings">⚙️</button>
             </div>
         </div>
@@ -249,6 +256,9 @@
     <!-- Firebase & JavaScript -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- SheetJS for Excel Export -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     
     <!-- OPTIONAL: Three.js for Light Pillar Animation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

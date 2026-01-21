@@ -371,6 +371,93 @@ function openPlaySphere() {
 }
 
 // ========================================
+// DOWNLOAD SUBMISSIONS AS EXCEL
+// ========================================
+
+function downloadSubmissions() {
+    console.log('📥 Preparing Excel download...');
+    
+    // Load latest data from localStorage
+    const localData = localStorage.getItem('classHubSubmissions');
+    if (localData) {
+        currentSubmissions = JSON.parse(localData);
+        console.log('✅ Loaded latest submissions from localStorage:', currentSubmissions);
+    }
+    
+    // Show loader
+    if (typeof HamsterLoader !== 'undefined') {
+        HamsterLoader.show('Generating Excel file...', 3000);
+    }
+    
+    try {
+        // Prepare data for Excel
+        const excelData = STUDENTS.map(student => {
+            const submission = currentSubmissions[student.register];
+            const isSubmitted = submission?.submitted || false;
+            const timestamp = submission?.timestamp || null;
+            
+            console.log(`${student.register}: submitted=${isSubmitted}, timestamp=${timestamp}`);
+            
+            // Format the timestamp properly
+            let submissionTimeText = 'Not Submitted';
+            if (isSubmitted && timestamp) {
+                submissionTimeText = formatTimestamp(timestamp);
+            }
+            
+            return {
+                'Register Number': student.register,
+                'Name': student.name,
+                'Gender': student.gender === 'male' ? 'Boy' : 'Girl',
+                'Status': isSubmitted ? 'Submitted' : 'Pending',
+                'Submission Time': submissionTimeText
+            };
+        });
+        
+        console.log('📊 Excel data prepared:', excelData.slice(0, 3)); // Log first 3 rows
+        
+        // Create workbook and worksheet
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(excelData);
+        
+        // Set column widths
+        ws['!cols'] = [
+            { wch: 18 },  // Register Number
+            { wch: 30 },  // Name
+            { wch: 10 },  // Gender
+            { wch: 12 },  // Status
+            { wch: 25 }   // Submission Time
+        ];
+        
+        // Add worksheet to workbook
+        XLSX.utils.book_append_sheet(wb, ws, 'Submissions');
+        
+        // Generate filename with current date
+        const date = new Date();
+        const filename = `ClassHub_Submissions_${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}.xlsx`;
+        
+        // Download the file
+        XLSX.writeFile(wb, filename);
+        
+        console.log('✅ Excel file downloaded:', filename);
+        
+        // Hide loader after short delay
+        setTimeout(() => {
+            if (typeof HamsterLoader !== 'undefined') {
+                HamsterLoader.hide();
+            }
+        }, 1000);
+        
+    } catch (error) {
+        console.error('❌ Download failed:', error);
+        alert('Failed to download Excel file. Please try again.');
+        
+        if (typeof HamsterLoader !== 'undefined') {
+            HamsterLoader.hide();
+        }
+    }
+}
+
+// ========================================
 // INITIALIZATION
 // ========================================
 
