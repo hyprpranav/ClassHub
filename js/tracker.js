@@ -323,20 +323,17 @@ function stopRealtimeSync() {
 
 function formatTimestamp(isoString) {
     if (!isoString) return '';
+    
     const date = new Date(isoString);
-    const now = new Date();
-    const diffMs = now - date;
-    const diffMins = Math.floor(diffMs / 60000);
     
-    if (diffMins < 1) return 'Just now';
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffMins < 1440) return `${Math.floor(diffMins / 60)}h ago`;
-    
-    return date.toLocaleDateString('en-IN', {
+    // Format: "Jan 21, 2026 8:45 AM" or "21 Jan, 8:45 AM" (Indian format)
+    return date.toLocaleString('en-IN', {
         day: '2-digit',
         month: 'short',
+        year: 'numeric',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
+        hour12: true
     });
 }
 
