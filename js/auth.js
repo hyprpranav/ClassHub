@@ -228,7 +228,7 @@ function openPollingViewNow() {
 // ========================================
 
 function hideAllViews() {
-    const views = ['trackerView', 'driveView', 'pollingView'];
+    const views = ['trackerView', 'driveView', 'pollingView', 'videoView'];
     
     views.forEach(viewId => {
         const view = document.getElementById(viewId);

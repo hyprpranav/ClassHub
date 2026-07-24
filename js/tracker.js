@@ -50,6 +50,8 @@ function closeView(viewName) {
         document.getElementById('driveView').classList.add('hidden');
     } else if (viewName === 'polling') {
         document.getElementById('pollingView').classList.add('hidden');
+    } else if (viewName === 'video') {
+        document.getElementById('videoView').classList.add('hidden');
     }
 }
 

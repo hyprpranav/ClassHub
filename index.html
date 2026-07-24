@@ -85,6 +85,13 @@
             <h2 class="card-title">Polling & Analysis</h2>
             <p class="card-description">Student task polling</p>
         </div>
+
+        <!-- Card 5: Lab Essentials Video -->
+        <div class="card" onclick="openVideoHub()">
+            <div class="card-icon">🎥</div>
+            <h2 class="card-title">VLSI Lab Essentials</h2>
+            <p class="card-description">Watch, control, and download experiment guidance</p>
+        </div>
     </main>
 
     <!-- Secret Code Modal -->
@@ -124,7 +131,7 @@
             </div>
             <div class="sort-group">
                 <label>Sort by:</label>
-                <select id="sortSelect" onchange="sortStudents()" class="sort-select">
+                <select id="sortSelect" onchange="sortStudents()" class="sort-select" title="Sort students">
                     <option value="register">Register Number</option>
                     <option value="name">Name</option>
                     <option value="time">Submission Time</option>
@@ -194,6 +201,67 @@
         </div>
     </div>
 
+    <!-- Lab Essentials Video View -->
+    <div id="videoView" class="view-container hidden">
+        <div class="view-header">
+            <button onclick="closeView('video')" class="back-btn">← Back</button>
+            <h2>🎥 VLSI Lab Essentials</h2>
+            <button onclick="openVideoHub()" class="summary-btn">🔄 Refresh</button>
+        </div>
+
+        <div class="video-shell">
+            <div class="video-card">
+                <div class="video-topbar">
+                    <div>
+                        <h3>Experiment Guide • Digital Logic Design</h3>
+                        <p>Double-click the player to play or pause the lesson video.</p>
+                    </div>
+                    <div class="video-actions">
+                        <button id="videoEnhanceBtn" class="btn-secondary">✨ Enhance</button>
+                        <button id="videoDownloadBtn" class="btn-primary">⬇️ Download</button>
+                    </div>
+                </div>
+
+                <div class="video-frame">
+                    <video id="labVideo" class="lesson-video" controls preload="metadata">
+                        <source src="Videos/Xilinx Vivado to Design NOT, NAND, NOR Gates. (1).mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div id="videoOverlay" class="video-overlay">
+                        <div class="video-overlay-text">▶️ Click to Play</div>
+                    </div>
+                </div>
+
+                <div class="video-controls">
+                    <label>
+                        Speed
+                        <select id="videoSpeedSelect">
+                            <option value="0.75">0.75x</option>
+                            <option value="1" selected>1x</option>
+                            <option value="1.25">1.25x</option>
+                            <option value="1.5">1.5x</option>
+                            <option value="2">2x</option>
+                        </select>
+                    </label>
+                    <label>
+                        Volume
+                        <input id="videoVolume" type="range" min="0" max="1" step="0.1" value="1">
+                    </label>
+                    <label>
+                        Quality
+                        <select id="videoQualitySelect">
+                            <option value="original">Original</option>
+                            <option value="enhanced">Enhanced</option>
+                            <option value="boost">Boost</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div id="videoStatus" class="video-status">Loading video...</div>
+            </div>
+        </div>
+    </div>
+
     <!-- Settings Panel -->
     <div id="settingsPanel" class="settings-panel">
         <div class="settings-content">
@@ -222,7 +290,7 @@
             <div class="setting-item">
                 <label>🔄 Auto-Reset (24 hours)</label>
                 <label class="switch">
-                    <input type="checkbox" id="autoResetToggle" onchange="toggleAutoReset()">
+                    <input type="checkbox" id="autoResetToggle" onchange="toggleAutoReset()" title="Toggle auto reset" aria-label="Toggle auto reset">
                     <span class="slider"></span>
                 </label>
             </div>
@@ -275,6 +343,7 @@
     <script src="js/poll.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/animations.js"></script>
+    <script src="js/video-player.js"></script>
     
     <!-- OPTIONAL: Light Pillar Animation (Delete this line + js/lightpillar.js to remove animation) -->
     <script src="js/lightpillar.js"></script>
