@@ -34,6 +34,29 @@ function initializeVideoPlayer() {
         }
     };
 
+    const togglePlayback = () => {
+        if (video.paused) {
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.then === 'function') {
+                playPromise
+                    .then(() => {
+                        overlay.classList.add('hidden');
+                        updateStatus('Playing lesson video');
+                    })
+                    .catch(() => {
+                        updateStatus('Playback started after user tap');
+                    });
+            } else {
+                overlay.classList.add('hidden');
+                updateStatus('Playing lesson video');
+            }
+        } else {
+            video.pause();
+            overlay.classList.remove('hidden');
+            updateStatus('Paused');
+        }
+    };
+
     const applyQuality = (mode) => {
         if (mode === 'enhanced') {
             video.style.filter = 'brightness(1.08) contrast(1.06) saturate(1.15)';
@@ -70,20 +93,16 @@ function initializeVideoPlayer() {
         updateStatus('Video could not be loaded');
     });
 
-    overlay.addEventListener('dblclick', () => {
-        if (video.paused) {
-            video.play().catch(() => updateStatus('Playback blocked by browser'));
-        } else {
-            video.pause();
-        }
+    overlay.addEventListener('click', togglePlayback);
+    overlay.addEventListener('dblclick', (event) => {
+        event.preventDefault();
+        togglePlayback();
     });
 
-    video.addEventListener('dblclick', () => {
-        if (video.paused) {
-            video.play().catch(() => updateStatus('Playback blocked by browser'));
-        } else {
-            video.pause();
-        }
+    video.addEventListener('click', togglePlayback);
+    video.addEventListener('dblclick', (event) => {
+        event.preventDefault();
+        togglePlayback();
     });
 
     speedSelect.addEventListener('change', () => {
