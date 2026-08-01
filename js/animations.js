@@ -5,6 +5,28 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🎨 Animations loaded');
+    // Remove any legacy page-loader elements or injected styles left behind
+    (function removeLegacyLoader() {
+        try {
+            // Remove old loader elements
+            document.querySelectorAll('.page-loader').forEach(el => el.remove());
+
+            // Remove dynamically injected <style> blocks that reference the old loader
+            document.querySelectorAll('style').forEach(s => {
+                const txt = s.textContent || '';
+                if (txt.includes('.page-loader') || txt.includes('loader-spinner') || txt.includes('loader-text')) {
+                    s.remove();
+                }
+            });
+
+            // Also remove any element by common legacy id
+            const legacy = document.getElementById('pageLoader');
+            if (legacy) legacy.remove();
+            console.log('🧹 Legacy loaders removed');
+        } catch (e) {
+            console.error('Error removing legacy loader:', e);
+        }
+    })();
     
     // Add ripple effect to buttons
     addRippleEffect();
