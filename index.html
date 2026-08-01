@@ -86,11 +86,11 @@
             <p class="card-description">Student task polling</p>
         </div>
 
-        <!-- Card 5: Lab Essentials Video -->
+        <!-- Card 5: Video Library -->
         <div class="card" onclick="openVideoHub()">
             <div class="card-icon">🎥</div>
-            <h2 class="card-title">VLSI Lab Essentials</h2>
-            <p class="card-description">Watch, control, and download experiment guidance</p>
+            <h2 class="card-title">Video Library</h2>
+            <p class="card-description">Watch, control, and download lesson videos</p>
         </div>
     </main>
 
@@ -201,22 +201,26 @@
         </div>
     </div>
 
-    <!-- Lab Essentials Video View -->
+    <!-- Video Library View -->
     <div id="videoView" class="view-container hidden">
         <div class="view-header">
             <button onclick="closeView('video')" class="back-btn">← Back</button>
-            <h2>🎥 VLSI Lab Essentials</h2>
-            <button onclick="openVideoHub()" class="summary-btn">🔄 Refresh</button>
+            <h2>🎥 Video Library</h2>
+            <div class="view-actions">
+                <button onclick="openLink('student')" class="summary-btn">➕ Add Video</button>
+                <button onclick="openVideoHub()" class="summary-btn">🔄 Refresh</button>
+            </div>
         </div>
 
         <div class="video-shell">
             <div class="video-card">
                 <div class="video-topbar">
                     <div>
-                        <h3>Experiment Guide • Digital Logic Design</h3>
-                        <p>Double-click the player to play or pause the lesson video.</p>
+                        <h3>Featured Lesson • Digital Logic Design</h3>
+                        <p>Tap the overlay or double-click the player to play and pause.</p>
                     </div>
                     <div class="video-actions">
+                        <button onclick="openLink('student')" class="btn-secondary">📁 Drive Materials</button>
                         <button id="videoEnhanceBtn" class="btn-secondary">✨ Enhance</button>
                         <button id="videoDownloadBtn" class="btn-primary">⬇️ Download</button>
                     </div>
@@ -228,7 +232,10 @@
                         Your browser does not support the video tag.
                     </video>
                     <div id="videoOverlay" class="video-overlay">
-                        <div class="video-overlay-text">▶️ Click to Play</div>
+                        <div class="video-overlay-text">
+                            <span class="video-overlay-pill">▶</span>
+                            <span>Click to Play</span>
+                        </div>
                     </div>
                 </div>
 
@@ -257,7 +264,7 @@
                     </label>
                 </div>
 
-                <div id="videoStatus" class="video-status">Loading video...</div>
+                <div id="videoStatus" class="video-status">Loading video library...</div>
             </div>
         </div>
     </div>

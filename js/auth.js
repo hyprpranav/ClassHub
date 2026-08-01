@@ -136,6 +136,13 @@ function openProtectedView(mode) {
         openTrackerViewNow();
     } else if (cleanMode === 'polling') {
         openPollingViewNow();
+    } else if (cleanMode === 'reset') {
+        if (typeof resetData === 'function') {
+            resetData();
+        } else {
+            console.error('❌ resetData function not found');
+            alert('Reset is unavailable right now. Please refresh and try again.');
+        }
     } else {
         console.error(`❌ Unknown mode: "${cleanMode}" (original: "${mode}")`);
         alert(`Error: Unknown view mode "${mode}". Please refresh and try again.`);

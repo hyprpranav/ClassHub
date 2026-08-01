@@ -195,6 +195,11 @@ async function performAutoReset() {
 // ========================================
 
 function confirmReset() {
+    if (typeof requestAccess === 'function') {
+        requestAccess('reset');
+        return;
+    }
+
     document.getElementById('resetModal').classList.add('active');
 }
 

@@ -136,7 +136,7 @@ function initializeVideoPlayer() {
 
         const link = document.createElement('a');
         link.href = videoUrl;
-        link.download = 'VLSI_Lab_Essentials.mp4';
+        link.download = 'ClassHub_Video.mp4';
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -150,7 +150,7 @@ function initializeVideoPlayer() {
 
 function openVideoHub() {
     if (typeof HamsterLoader !== 'undefined') {
-        HamsterLoader.show('Opening lab essentials...', 800);
+        HamsterLoader.show('Opening video library...', 800);
     }
 
     const videoView = document.getElementById('videoView');

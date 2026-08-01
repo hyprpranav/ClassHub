@@ -15,9 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add smooth scroll behavior
     enableSmoothScroll();
     
-    // Add loading animation
-    initLoadingAnimation();
-    
     // Add typing effect to header
     addTypingEffect();
 });
@@ -148,84 +145,6 @@ function enableSmoothScroll() {
         });
     });
 }
-
-// ========================================
-// LOADING ANIMATION
-// ========================================
-
-function initLoadingAnimation() {
-    // Show loading screen briefly
-    const loader = document.createElement('div');
-    loader.className = 'page-loader';
-    loader.innerHTML = `
-        <div class="loader-content">
-            <div class="loader-spinner"></div>
-            <p class="loader-text">Loading ClassHub...</p>
-        </div>
-    `;
-    document.body.appendChild(loader);
-    
-    // Remove after content loads
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            loader.classList.add('fade-out');
-            setTimeout(() => loader.remove(), 500);
-        }, 800);
-    });
-}
-
-// Loader styles
-const loaderStyle = document.createElement('style');
-loaderStyle.textContent = `
-    .page-loader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        transition: opacity 0.5s ease;
-    }
-    
-    .page-loader.fade-out {
-        opacity: 0;
-    }
-    
-    .loader-content {
-        text-align: center;
-        color: white;
-    }
-    
-    .loader-spinner {
-        width: 60px;
-        height: 60px;
-        border: 5px solid rgba(255, 255, 255, 0.3);
-        border-top-color: white;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin: 0 auto 1rem;
-    }
-    
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-    
-    .loader-text {
-        font-size: 1.2rem;
-        font-weight: 600;
-        animation: pulse-text 1.5s ease-in-out infinite;
-    }
-    
-    @keyframes pulse-text {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
-    }
-`;
-document.head.appendChild(loaderStyle);
 
 // ========================================
 // TYPING EFFECT FOR HEADER
