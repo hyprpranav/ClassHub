@@ -355,12 +355,33 @@ const DRIVE_LINKS = {
 };
 
 function openLink(type) {
-    const url = DRIVE_LINKS[type];
-    if (url.includes('YOUR_')) {
-        alert('⚠️ Drive link not configured yet. Please update DRIVE_LINKS in tracker.js');
-        return;
+    try {
+        const url = DRIVE_LINKS[type];
+
+        if (!url) {
+            console.error(`openLink: No drive link configured for type="${type}"`);
+            alert('⚠️ Drive link not configured for this section.');
+            return;
+        }
+
+        if (String(url).includes('YOUR_')) {
+            alert('⚠️ Drive link not configured yet. Please update DRIVE_LINKS in tracker.js');
+            return;
+        }
+
+        // Use an anchor element to open reliably in all browsers and avoid popup blockers
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        console.log(`🔗 Opened drive link (${type}): ${url}`);
+    } catch (err) {
+        console.error('Error opening drive link:', err);
+        alert('Failed to open link. Please try again.');
     }
-    window.open(url, '_blank');
 }
 
 // ========================================
